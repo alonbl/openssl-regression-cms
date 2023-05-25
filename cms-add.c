@@ -91,7 +91,7 @@ int main(int argc, char *argv[]) {
 		goto cleanup;
 	}
 
-	if (i2d_CMS_bio_stream(bio_cms_out, cms, NULL, flags)  <= 0) {
+	if (i2d_CMS_bio(bio_cms_out, cms)  <= 0) {
 		openssl_error("i2d_CMS_bio/i2d_CMS_bio");
 		goto cleanup;
 	}
