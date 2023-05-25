@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <string.h>
 
 #include <openssl/cms.h>
 #include <openssl/err.h>
@@ -18,7 +17,6 @@ int main(int argc, char *argv[]) {
 	char *evp_key_name = argv[arg++];
 	char *x509_name = argv[arg++];
 	char *x509_to_name = argv[arg++];
-	char *skip = argv[arg++];
 
 	BIO *bio_cms_in = NULL;
 	BIO *bio_cms_out = NULL;
@@ -93,14 +91,7 @@ int main(int argc, char *argv[]) {
 		goto cleanup;
 	}
 
-	if (strcmp(skip, "1")) {
-		if (!CMS_final(cms, NULL, NULL, flags)) {
-			openssl_error("CMS_final");
-			goto cleanup;
-		}
-	}
-
-	if (i2d_CMS_bio(bio_cms_out, cms)  <= 0) {
+	if (i2d_CMS_bio_stream(bio_cms_out, cms, NULL, flags)  <= 0) {
 		openssl_error("i2d_CMS_bio/i2d_CMS_bio");
 		goto cleanup;
 	}
@@ -108,6 +99,7 @@ int main(int argc, char *argv[]) {
 	ret = 0;
 
 cleanup:
+	BIO_free_all(CMS_dataInit(cms, NULL));
 	CMS_ContentInfo_free(cms);
 	X509_free(x509);
 	X509_free(x509_to);
