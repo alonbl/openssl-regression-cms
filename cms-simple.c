@@ -20,7 +20,6 @@ int main(int argc, char *argv[]) {
 	BIO *bio_cms_in = NULL;
 	BIO *bio_cms_out = NULL;
 	CMS_ContentInfo *cms = NULL;
-	CMS_RecipientInfo *ri = NULL;
 	int flags = CMS_BINARY | CMS_DETACHED | CMS_PARTIAL | CMS_USE_KEYID;
 	int ret = 1;
 
