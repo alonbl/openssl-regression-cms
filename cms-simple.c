@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 #include <openssl/cms.h>
 #include <openssl/err.h>
